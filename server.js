@@ -11,9 +11,6 @@ const app = express();
 app.use(express.static(__dirname));
 
 
-
-
-
 app.listen(PORT, () =>
     console.log(`Example app listening at http://localhost:${PORT}`)
   );
