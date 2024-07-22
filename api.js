@@ -1,6 +1,7 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+// npm for uinique ids
 const { v4: uuidv4 } = require('uuid');
 
 const router = express.Router();
@@ -23,6 +24,7 @@ router.get('/notes', (req, res) => {
 });
 
 // POST route for saving a new note
+// calling uuidv4 to make unique id 
 router.post('/notes', (req, res) => {
   const notes = readNotes();
   const newNote = { ...req.body, id: uuidv4() };

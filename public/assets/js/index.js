@@ -1,4 +1,5 @@
-document.addEventListener('DOMContentLoaded', (event) => {
+// declaring variables
+
   let noteForm;
   let noteTitle;
   let noteText;
@@ -7,6 +8,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   let clearBtn;
   let noteList;
 
+// dom elements on notes.html
   if (window.location.pathname === '/notes.html') {
     noteForm = document.querySelector('.note-form');
     noteTitle = document.querySelector('.note-title');
@@ -16,17 +18,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
     clearBtn = document.querySelector('.clear-btn');
     noteList = document.querySelector('.list-group');
   }
-
+// Show an element
   const show = (elem) => {
     elem.style.display = 'inline';
   };
-
+// hide an element
   const hide = (elem) => {
     elem.style.display = 'none';
   };
-
+// activeNote is used to keep track of the note in the textarea
   let activeNote = {};
-
+// fetching notes from server
   const getNotes = () =>
     fetch('/api/notes', {
       method: 'GET',
@@ -35,6 +37,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
       }
     });
 
+// saving new note to the server
   const saveNote = (note) =>
     fetch('/api/notes', {
       method: 'POST',
@@ -43,7 +46,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
       },
       body: JSON.stringify(note)
     });
-
+// deleting note from server based on id
   const deleteNote = (id) =>
     fetch(`/api/notes/${id}`, {
       method: 'DELETE',
@@ -51,7 +54,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         'Content-Type': 'application/json'
       }
     });
-
+// Rendering the active notes
   const renderActiveNote = () => {
     hide(saveNoteBtn);
     hide(clearBtn);
@@ -70,7 +73,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
       noteText.value = '';
     }
   };
-
+// handle saving/deleting new note
   const handleNoteSave = () => {
     const newNote = {
       title: noteTitle.value,
@@ -97,19 +100,20 @@ document.addEventListener('DOMContentLoaded', (event) => {
       renderActiveNote();
     });
   };
-
+// Sets the activeNote and displays it
   const handleNoteView = (e) => {
     e.preventDefault();
     activeNote = JSON.parse(e.target.parentElement.getAttribute('data-note'));
     renderActiveNote();
   };
-
+// Sets the activeNote to and empty object and allows the user to enter a new note
   const handleNewNoteView = (e) => {
     activeNote = {};
     show(clearBtn);
     renderActiveNote();
   };
 
+  // renders the appropriate buttons based on the state of the form
   const handleRenderBtns = () => {
     show(clearBtn);
     if (!noteTitle.value.trim() && !noteText.value.trim()) {
@@ -121,6 +125,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
   };
 
+  // Render the list of note titles
   const renderNoteList = async (notes) => {
     let jsonNotes = await notes.json();
     if (window.location.pathname === '/notes.html') {
@@ -129,6 +134,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     let noteListItems = [];
 
+    // Returns HTML element with or without a delete button
     const createLi = (text, delBtn = true) => {
       const liEl = document.createElement('li');
       liEl.classList.add('list-group-item');
@@ -173,6 +179,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
   };
 
+  // Get notes from the db and renders them to the sidebar
   const getAndRenderNotes = () => getNotes().then(renderNoteList);
 
   if (window.location.pathname === '/notes.html') {
@@ -183,4 +190,4 @@ document.addEventListener('DOMContentLoaded', (event) => {
   }
 
   getAndRenderNotes();
-});
+
