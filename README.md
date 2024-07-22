@@ -29,7 +29,7 @@ N/A
 
 ## License
 
-<img src="./img/MIT-logo.jpg" alt="logo" width="50"/>
+<img src="./public/assets/img/MIT-logo.jpg" alt="logo" width="50"/>
 
 This project is licensed under the MIT 
 - see the following link for details: [MIT License](https://opensource.org/licenses/MIT)
